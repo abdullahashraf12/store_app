@@ -11,4 +11,16 @@ abstract class ApiUrls {
       "http://" + ip + ":" + port + "/mobApi/a_c/";
   static String getAllVendorsByIDsUrl =
       "http://" + ip + ":" + port + "/mobApi/a_v/";
+  static String variable_categ = "";
+  static String variable_prod = "";
+
+  static String SearchProduct = "http://" +
+      ip +
+      ":" +
+      port +
+      "/mobApi/get_p_n_c/" +
+      "?category_category=" +
+      variable_categ +
+      "&search_name=" +
+      variable_prod;
 }
