@@ -8,7 +8,7 @@ class VendorService {
   Future<VendorModel> getVendorById(String vendorId) async {
     try {
       Response response =
-          await _dio.get(ApiUrls.getAllVendorsByIDsUrl + vendorId);
+          await _dio.get(ApiUrls.getAllVendorsByIDsUrl(vendorId));
       return VendorModel.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to load vendor');

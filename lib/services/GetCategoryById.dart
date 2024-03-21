@@ -9,7 +9,7 @@ class CategoryService {
   Future<CategoryModel> getCategoryById(String categoryId) async {
     try {
       Response response =
-          await _dio.get(ApiUrls.getAllCategoriesByIDsUrl + categoryId);
+          await _dio.get(ApiUrls.getAllCategoriesByIDsUrl(categoryId));
       return CategoryModel.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to load category');

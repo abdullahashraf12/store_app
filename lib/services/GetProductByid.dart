@@ -9,7 +9,7 @@ class ProductServiceWithId {
   Future<ProductsModel> getProductById(String productId) async {
     try {
       Response response =
-          await _dio.get(ApiUrls.getAllProductByIDsUrl + productId);
+          await _dio.get(ApiUrls.getAllProductByIDsUrl(productId));
       return ProductsModel.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to load product');
