@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/screens/HomeScreen.dart';
+import 'package:store_app/screens/Home_Login.dart';
+import 'package:store_app/screens/Register.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,8 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(milliseconds: 3000)).then((value) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) {
-        // return const LoginPage();
-        return HomeScreen();
+        return LoginPage();
+        // return HomeScreen();
+        // return LoginPage();
+        // return RegisterPage();
       }));
     });
   }

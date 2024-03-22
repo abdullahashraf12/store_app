@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/constants/API_URLS.dart';
 import 'package:store_app/models/CategoriesM.dart';
-import 'package:store_app/models/ProductM.dart';
-import 'package:store_app/models/VendorsM.dart'; // Import your models file or wherever your Category class is defined
 
 class HomeWidget extends StatelessWidget {
   final List<CategoryModel> categories;

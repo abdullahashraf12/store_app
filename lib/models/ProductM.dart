@@ -46,29 +46,31 @@ class ProductsModel {
   });
 
   factory ProductsModel.fromJson(Map<String, dynamic> json) {
-    print(json['title']);
     return ProductsModel(
-      id: json['id'],
-      pid: json['pid'],
-      title: json['title'],
-      image: json['image'],
-      backImage: json['back_image'],
-      description: json['description'],
-      userId: json['user_id'],
-      categoryId: json['category_id'],
-      vendorId: json['vendor_id'],
-      price: json['price'],
-      oldPrice: json['old_Price'],
-      specification: json['spescification'],
-      tagsId: json['tags_id'],
-      productsStatus: json['products_status'],
-      status: json['status'],
-      inStock: json['in_stock'],
-      digital: json['digital'],
-      featured: json['featured'],
-      sku: json['sku'],
-      date: DateTime.parse(json['date']),
-      update: DateTime.parse(json['update']),
+      id: json['id'] ?? 0,
+      pid: json['pid'] ?? '',
+      title: json['title'] ?? '',
+      image: json['image'] ?? '',
+      backImage: json['back_image'] ?? '',
+      description: json['description'] ?? '',
+      userId: json['user_id'] ?? 0,
+      categoryId: json['category_id'] ?? 0,
+      vendorId: json['vendor_id'] ?? 0,
+      price: json['price'] ?? '',
+      oldPrice: json['old_Price'] ?? '',
+      specification: json['spescification'] ?? '',
+      tagsId: json['tags_id'] ?? 0,
+      productsStatus: json['products_status'] ?? '',
+      status: json['status'] ?? false,
+      inStock: json['in_stock'] ?? false,
+      digital: json['digital'] ?? false,
+      featured: json['featured'] ?? false,
+      sku: json['sku'] ?? '',
+      date:
+          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
+      update: json['update'] != null
+          ? DateTime.parse(json['update'])
+          : DateTime.now(),
     );
   }
 }

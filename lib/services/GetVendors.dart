@@ -8,10 +8,16 @@ class VendorService {
   Future<List<VendorModel>> GetAllVendors() async {
     try {
       Response response = await _dio.get(ApiUrls.getAllVendorsUrl);
-      List<dynamic> data = response.data;
-      return data.map((json) => VendorModel.fromJson(json)).toList();
-    } catch (error) {
-      throw Exception('Failed to load products');
+      if (response.statusCode == 200) {
+        List<dynamic> data = response.data;
+        return data.map((json) => VendorModel.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load vendors: ${response.statusCode}');
+      }
+    } catch (error, stackTrace) {
+      print('Error fetching vendors: $error');
+      print('Stack trace: $stackTrace');
+      throw Exception('Failed to load vendors: $error');
     }
   }
 }

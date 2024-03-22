@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:store_app/screens/Home_Login.dart';
+import 'package:store_app/services/Authentication.dart';
 
-class RegisterWidget extends StatelessWidget {
-  RegisterWidget({super.key});
+class RegisterWidget extends StatefulWidget {
+  RegisterWidget({Key? key}) : super(key: key);
+
+  @override
+  _RegisterWidgetState createState() => _RegisterWidgetState();
+}
+
+class _RegisterWidgetState extends State<RegisterWidget> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
-  String _email = '';
-  String _password = '';
+  String? _errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,31 @@ class RegisterWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (_errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    _errorMessage!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
               TextFormField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your username';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'Email',
@@ -32,9 +64,6 @@ class RegisterWidget extends StatelessWidget {
                     return 'Please enter your email';
                   }
                   return null;
-                },
-                onSaved: (value) {
-                  _email = value!;
                 },
               ),
               SizedBox(height: 20.0),
@@ -51,9 +80,6 @@ class RegisterWidget extends StatelessWidget {
                     return 'Please enter a password';
                   }
                   return null;
-                },
-                onSaved: (value) {
-                  _password = value!;
                 },
               ),
               SizedBox(height: 20.0),
@@ -79,11 +105,12 @@ class RegisterWidget extends StatelessWidget {
                 onPressed: () {
                   if (_formKey.currentState != null &&
                       _formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
                     // You can handle registration logic here
-                    // For demonstration, print email and password
-                    print('Email: $_email');
-                    print('Password: $_password');
+                    String username = _usernameController.text;
+                    String email = _emailController.text;
+                    String password = _passwordController.text;
+                    _registerUser(username, email, password);
+                    // initState() {}
                   }
                 },
                 child: Text('Register'),
@@ -104,11 +131,45 @@ class RegisterWidget extends StatelessWidget {
                     decoration: TextDecoration.underline,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // void _registerUser(String username, String email, String password) async {
+  //   var data = await RegisterService().registerUser(username, email, password);
+  //   print('Registration response: $data');
+  //   print('Registration response: $data');
+  //   print('Registration response: $data');
+  //   print('Registration response: $data');
+  //   if (data['data'].toString() == "Success") {
+  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+  //       return const LoginPage();
+  //     }));
+  //   } else if (data["error"].toString().contains("already exists") == true) {
+  //     setState(() {
+  //       _errorMessage = 'This account already exists';
+  //     });
+  //   } else {
+  //     _errorMessage = 'This account already exists';
+  //   }
+  // }
+
+  void _registerUser(String username, String email, String password) async {
+    var data = await RegisterService().registerUser(username, email, password);
+    print('Registration response: $data');
+
+    if (data["error"].toString().contains("already exists")) {
+      setState(() {
+        _errorMessage = 'This account already exists';
+      });
+    } else if (data["data"].toString().contains('Success') == true) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const LoginPage();
+      }));
+    }
   }
 }
