@@ -3,7 +3,7 @@ import 'package:store_app/constants/API_URLS.dart';
 
 import 'package:store_app/models/CategoriesM.dart';
 
-class CategoryService {
+class CategoryServiceID {
   final Dio _dio = Dio();
 
   Future<CategoryModel> getCategoryById(String categoryId) async {

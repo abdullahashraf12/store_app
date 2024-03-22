@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:store_app/constants/API_URLS.dart';
 import 'package:store_app/models/VendorsM.dart';
 
-class VendorService {
+class VendorServiceID {
   final Dio _dio = Dio();
 
   Future<VendorModel> getVendorById(String vendorId) async {

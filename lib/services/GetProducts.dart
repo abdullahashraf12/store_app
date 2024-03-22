@@ -11,7 +11,7 @@ class ProductService {
       List<dynamic> data = response.data;
       return data.map((json) => ProductsModel.fromJson(json)).toList();
     } catch (error) {
-      throw Exception('Failed to load products');
+      throw Exception('Failed to load products' + error.toString());
     }
   }
 }

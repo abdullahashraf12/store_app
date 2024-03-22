@@ -46,6 +46,7 @@ class ProductsModel {
   });
 
   factory ProductsModel.fromJson(Map<String, dynamic> json) {
+    print(json['title']);
     return ProductsModel(
       id: json['id'],
       pid: json['pid'],

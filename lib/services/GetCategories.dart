@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:store_app/models/VendorsM.dart';
+import 'package:store_app/models/CategoriesM.dart';
 import 'package:store_app/constants/API_URLS.dart';
 
-class VendorService {
+class CategotyService {
   final Dio _dio = Dio();
 
-  Future<List<VendorModel>> getAllCategories() async {
+  Future<List<CategoryModel>> getAllCategories() async {
     try {
       Response response = await _dio.get(ApiUrls.getAllCategoriesUrl);
       List<dynamic> data = response.data;
-      return data.map((json) => VendorModel.fromJson(json)).toList();
+      return data.map((json) => CategoryModel.fromJson(json)).toList();
     } catch (error) {
       throw Exception('Failed to load vendors');
     }
