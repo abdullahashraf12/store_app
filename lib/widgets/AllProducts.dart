@@ -12,7 +12,13 @@ class ProductHomeWidget extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          title: Text('Daily Products'),
+          title: Text(
+            'Daily Products',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           floating: true,
           snap: true,
         ),
