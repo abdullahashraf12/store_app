@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ApiUrls {
   static const String ip = "192.168.1.9";
   static const String port = "8080";

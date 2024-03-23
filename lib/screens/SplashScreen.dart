@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_app/screens/HomeScreen.dart';
 import 'package:store_app/screens/Home_Login.dart';
 import 'package:store_app/screens/Register.dart';
@@ -15,13 +18,32 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 3000)).then((value) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) {
-        return LoginPage();
-        // return HomeScreen();
-        // return LoginPage();
-        // return RegisterPage();
-      }));
+    Future.delayed(const Duration(milliseconds: 3000)).then((value) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token;
+      token = prefs.getString("token");
+      log(token.toString());
+
+      log(token.toString().isEmpty.toString());
+      if (token.toString() == 'null') {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (builder) {
+          // return LoginPage();
+          log("i am here 222222");
+
+          return LoginPage();
+
+          // return LoginPage();
+          // return RegisterPage();
+        }));
+      } else {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (builder) {
+          log("i am here 44567");
+          log(token.toString());
+          return HomeScreen();
+        }));
+      }
     });
   }
 
