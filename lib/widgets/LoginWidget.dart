@@ -26,43 +26,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.initState();
   }
 
-//  listener: (context, state) {
-//           if (state is LoginSuccess) {
-//             Navigator.pushReplacement(
-//               context,
-//               MaterialPageRoute(builder: (context) => HomeScreen()),
-//             );
-//           } else if (state is LoginFailed) {
-//             Navigator.pushReplacement(
-//               context,
-//               MaterialPageRoute(
-//                 builder: (context) =>
-//                     LoginPage(errorMessage: 'Authentication Failed'),
-//               ),
-//             );
-//           } else if (state is LoginInitial) {
-//             log("44 44 44");
-//             Navigator.pushReplacement(
-//               context,
-//               MaterialPageRoute(
-//                   builder: (context) => LoginPage(
-//                         errorMessage: '',
-//                       )),
-//             );
-//           } else if (state is AuthenticationState) {
-//             log('55555555555555555555555');
-//             MaterialPageRoute(
-//               builder: (context) =>
-//                   LoginPage(errorMessage: 'Authentication Failed'),
-//             );
-//           } else if (state is LoginFailed) {
-//             log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
-//             MaterialPageRoute(
-//                 builder: (context) =>
-//                     LoginPage(errorMessage: 'Authentication Failed'));
-//           }
-//         },
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
