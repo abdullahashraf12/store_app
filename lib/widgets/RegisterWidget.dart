@@ -109,7 +109,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     String username = _usernameController.text;
                     String email = _emailController.text;
                     String password = _passwordController.text;
-                    _registerUser(username, email, password);
+                    // _registerUser(username, email, password);
                     // initState() {}
                   }
                 },
@@ -118,10 +118,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               SizedBox(height: 20.0),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (builder) {
-                    return LoginPage();
-                  }));
+                  // Navigator.pushReplacement(context,
+                  //     MaterialPageRoute(builder: (builder) {
+                  //   return LoginPage();
+                  // }));
                 },
                 child: Text(
                   'Already have an account? Login here',
@@ -158,18 +158,18 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   //   }
   // }
 
-  void _registerUser(String username, String email, String password) async {
-    var data = await RegisterService().registerUser(username, email, password);
-    print('Registration response: $data');
+  // void _registerUser(String username, String email, String password) async {
+  //   var data = await RegisterService().registerUser(username, email, password);
+  //   print('Registration response: $data');
 
-    if (data["error"].toString().contains("already exists")) {
-      setState(() {
-        _errorMessage = 'This account already exists';
-      });
-    } else if (data["data"].toString().contains('Success') == true) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const LoginPage();
-      }));
-    }
-  }
+  //   if (data["error"].toString().contains("already exists")) {
+  //     setState(() {
+  //       _errorMessage = 'This account already exists';
+  //     });
+  //   } else if (data["data"].toString().contains('Success') == true) {
+  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+  //       return const LoginPage();
+  //     }));
+  //   }
+  // }
 }

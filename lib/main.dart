@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:store_app/screens/HomeStore.dart';
-import 'package:store_app/screens/Home_Login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_app/Bloc/bloc/authentication_bloc.dart';
 import 'package:store_app/screens/SplashScreen.dart';
 
 void main() {
@@ -14,12 +14,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) {
+          return AuthenticationBloc();
+        })
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: Colors.amber),
+        title: "Kindacode.com",
+        home: SplashScreen(),
+      ),
       // Remove the debug banner
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.amber),
-      title: "Kindacode.com",
-      home: SplashScreen(),
     );
   }
 }
