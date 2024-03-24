@@ -20,8 +20,16 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     log("Splash Screen");
     Future.delayed(const Duration(milliseconds: 3000)).then((value) async {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String token = sharedPreferences.getString("token").toString();
+      if (token != "null") {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      }
     });
   }
 

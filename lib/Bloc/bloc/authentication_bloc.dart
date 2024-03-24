@@ -11,6 +11,10 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(AuthenticationInitial()) {
     on<AuthenticationEvent>((event, emit) async {
+      emit(AuthenticationInitial());
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String token = sharedPreferences.getString("token").toString();
       if (event is AuthenticationRegistering) {
         await register(event, emit);
       } else if (event is AuthenticationLoggingIn) {
@@ -21,6 +25,7 @@ class AuthenticationBloc
   String? loginErrorMessage;
   Future<void> register(
       AuthenticationEvent event, Emitter<AuthenticationState> emit) async {
+    log(emit.toString());
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString("token").toString();
 
@@ -42,13 +47,14 @@ class AuthenticationBloc
 
   Future<void> Login(
       AuthenticationEvent event, Emitter<AuthenticationState> emit) async {
+    log(emit.toString());
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString("token").toString();
     if (event is AuthenticationLoggingIn) {
       Map<String, dynamic> data =
           await LoginService().loginUser(event.email, event.password);
       log(data["token"]);
-      sharedPreferences.setString('token', data["token"]);
+      sharedPreferences.setString('token', data["token"].toString());
       token = sharedPreferences.getString("token").toString();
 
       log("token is " + token);
@@ -62,6 +68,7 @@ class AuthenticationBloc
       } else if (data.containsKey('token') && data['token'] != null) {
         sharedPreferences.setString("token", data['token'].toString());
         log("i am here 33");
+        log(sharedPreferences.getString("token").toString());
         emit(LoginSuccess());
       }
     } else if (event is AuthenticationEvent && token == 'null') {
