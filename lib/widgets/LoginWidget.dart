@@ -103,23 +103,26 @@ class _LoginWidgetState extends State<LoginWidget> {
                     },
                   ),
                   SizedBox(height: 20.0),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState != null &&
-                          _formKey.currentState!.validate()) {
-                        // Perform login action here
-                        String email = _emailController.text;
-                        String password = _passwordController.text;
-                        print('Email: $email');
-                        print('Password: $password');
-                        BlocProvider.of<AuthenticationBloc>(context).add(
-                          AuthenticationLoggingIn(
-                              email: email, password: password),
-                        );
-                      }
-                    },
-                    child: Text('Submit'),
-                  ),
+                  state is AuthenticationLoading
+                      ? Image.asset("assets/images/loading.gif",
+                          width: 250, height: 250)
+                      : ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState != null &&
+                                _formKey.currentState!.validate()) {
+                              // Perform login action here
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              print('Email: $email');
+                              print('Password: $password');
+                              BlocProvider.of<AuthenticationBloc>(context).add(
+                                AuthenticationLoggingIn(
+                                    email: email, password: password),
+                              );
+                            }
+                          },
+                          child: Text('Submit'),
+                        ),
                   SizedBox(height: 20.0),
                   GestureDetector(
                     onTap: () {

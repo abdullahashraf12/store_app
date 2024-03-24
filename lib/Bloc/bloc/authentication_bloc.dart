@@ -30,6 +30,8 @@ class AuthenticationBloc
     String token = sharedPreferences.getString("token").toString();
 
     if (event is AuthenticationRegistering) {
+      emit(AuthenticationLoading());
+
       var data = await RegisterService()
           .registerUser(event.username, event.email, event.password);
       log(data["error"].toString());
@@ -53,6 +55,7 @@ class AuthenticationBloc
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString("token").toString();
     if (event is AuthenticationLoggingIn) {
+      emit(AuthenticationLoading());
       Map<String, dynamic> data =
           await LoginService().loginUser(event.email, event.password);
       if (data["token"].toString() != 'null' &&

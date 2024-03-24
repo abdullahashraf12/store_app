@@ -10,12 +10,20 @@ import 'package:store_app/widgets/HomeScreenWidget.dart';
 import 'package:store_app/services/GetCategories.dart';
 import 'package:store_app/models/CategoriesM.dart';
 import 'package:store_app/widgets/VendorHome.dart';
+import 'package:store_app/services/WebSocketNotification.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+  final WebSocketNotificationService notificationService =
+      WebSocketNotificationService();
+
+  Future<void> _initializeNotifications() async {
+    await notificationService.connect(); // Connect to WebSocket
+  }
 
   @override
   Widget build(BuildContext context) {
+    _initializeNotifications();
     return Scaffold(
       appBar: AppBar(
         title: AppBarSearch(),

@@ -130,26 +130,29 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     },
                   ),
                   SizedBox(height: 20.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState != null &&
-                          _formKey.currentState!.validate()) {
-                        // You can handle registration logic here
-                        String username = _usernameController.text;
-                        String email = _emailController.text;
-                        String password = _passwordController.text;
-                        BlocProvider.of<AuthenticationBloc>(context).add(
-                          AuthenticationRegistering(
-                              username: username,
-                              email: email,
-                              password: password),
-                        );
-                        // _registerUser(username, email, password);
-                        // initState() {}
-                      }
-                    },
-                    child: Text('Register'),
-                  ),
+                  state is AuthenticationLoading
+                      ? Image.asset("assets/images/loading.gif",
+                          width: 250, height: 250)
+                      : ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState != null &&
+                                _formKey.currentState!.validate()) {
+                              // You can handle registration logic here
+                              String username = _usernameController.text;
+                              String email = _emailController.text;
+                              String password = _passwordController.text;
+                              BlocProvider.of<AuthenticationBloc>(context).add(
+                                AuthenticationRegistering(
+                                    username: username,
+                                    email: email,
+                                    password: password),
+                              );
+                              // _registerUser(username, email, password);
+                              // initState() {}
+                            }
+                          },
+                          child: Text('Register'),
+                        ),
                   SizedBox(height: 20.0),
                   GestureDetector(
                     onTap: () {

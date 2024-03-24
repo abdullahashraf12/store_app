@@ -23,4 +23,6 @@ class ApiUrls {
   static const String loginUrl = 'http://${ip}:${port}/mobApi/login_user_mob/';
   static const String logoutUrl = 'http://${ip}:${port}/mobApi/logout_mob/';
   static const String WebSocketUrl = "ws://${ip}:${port}/ws/socket-server/";
+  static const String WebSocketNotificationUrl =
+      "ws://${ip}:${port}/ws/socket-server/token";
 }

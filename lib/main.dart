@@ -4,11 +4,11 @@ import 'package:store_app/Bloc/bloc/authentication_bloc.dart';
 import 'package:store_app/screens/SplashScreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
+  MyApp({
     super.key,
   });
 
