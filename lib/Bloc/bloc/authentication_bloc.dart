@@ -47,29 +47,23 @@ class AuthenticationBloc
 
   Future<void> Login(
       AuthenticationEvent event, Emitter<AuthenticationState> emit) async {
+    log("i am here 11111111111111111");
+
     log(emit.toString());
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString("token").toString();
     if (event is AuthenticationLoggingIn) {
       Map<String, dynamic> data =
           await LoginService().loginUser(event.email, event.password);
-      log(data["token"]);
-      sharedPreferences.setString('token', data["token"].toString());
-      token = sharedPreferences.getString("token").toString();
-
-      log("token is " + token);
-
-      if (data.containsKey('error')) {
-        log(data['error']);
-        loginErrorMessage = data['error'];
+      if (data["token"].toString() != 'null' &&
+          data.containsKey('error') == false) {
+        sharedPreferences.setString('token', data["token"].toString());
+        emit(LoginSuccess());
+      } else {
         log("i am here 22");
 
+        loginErrorMessage = data['error'];
         emit(LoginFailed());
-      } else if (data.containsKey('token') && data['token'] != null) {
-        sharedPreferences.setString("token", data['token'].toString());
-        log("i am here 33");
-        log(sharedPreferences.getString("token").toString());
-        emit(LoginSuccess());
       }
     } else if (event is AuthenticationEvent && token == 'null') {
       log("i am here 44");

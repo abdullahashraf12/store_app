@@ -153,10 +153,10 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   SizedBox(height: 20.0),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushReplacement(context,
-                      //     MaterialPageRoute(builder: (builder) {
-                      //   return LoginPage();
-                      // }));
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (builder) {
+                        return LoginPage();
+                      }));
                     },
                     child: Text(
                       'Already have an account? Login here',
