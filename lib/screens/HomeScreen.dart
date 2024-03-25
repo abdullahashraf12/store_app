@@ -4,16 +4,15 @@ import 'package:store_app/models/ProductM.dart';
 import 'package:store_app/models/VendorsM.dart';
 import 'package:store_app/services/GetProducts.dart';
 import 'package:store_app/services/GetVendors.dart';
+import 'package:store_app/services/WebSocketNotification.dart';
 import 'package:store_app/widgets/AllProducts.dart';
 import 'package:store_app/widgets/AppBarSearch.dart';
 import 'package:store_app/widgets/HomeScreenWidget.dart';
 import 'package:store_app/services/GetCategories.dart';
 import 'package:store_app/models/CategoriesM.dart';
 import 'package:store_app/widgets/VendorHome.dart';
-import 'package:store_app/services/WebSocketNotification.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
   final WebSocketNotificationService notificationService =
       WebSocketNotificationService();
 
