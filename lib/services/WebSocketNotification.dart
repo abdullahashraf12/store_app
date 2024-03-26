@@ -1,13 +1,15 @@
-import 'dart:async';
-import 'dart:convert'; // Import for JSON decoding
+import 'dart:convert';
 import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_app/constants/API_URLS.dart';
 import 'package:web_socket_channel/io.dart';
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class WebSocketNotificationService {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  IOWebSocketChannel? _channel;
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   Future<void> connect() async {
@@ -19,10 +21,17 @@ class WebSocketNotificationService {
     }
 
     try {
-      final channel = IOWebSocketChannel.connect(
-          '${ApiUrls.WebSocketNotificationUrl}/${token}');
+      _channel = IOWebSocketChannel.connect(
+          '${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
+      print('${ApiUrls.WebSocketNotificationUrl}/$token');
 
-      channel.stream.listen(
+      _channel!.stream.listen(
         (message) {
           var decodedMessage = null;
           try {
@@ -44,15 +53,9 @@ class WebSocketNotificationService {
                   "My Message" +
                   notificationMessage.toString());
               // Show the notification
-              showNotification(id, notificationMessage);
+              // showNotification(id, notificationMessage); // You can implement this method if needed
             }
           } catch (e) {
-            Map<String, dynamic> jsonObject = json.decode(message.toString());
-            List<Map<String, dynamic>> resultList = [jsonObject];
-            showNotification(resultList[0]["id"], resultList[0]["message"]);
-
-            // log(jsonObject["id"]);
-
             log('Error decoding or processing message: $e');
           }
         },
@@ -62,7 +65,7 @@ class WebSocketNotificationService {
         },
         onDone: () {
           log('WebSocket closed.');
-          // Handle closure here
+          // Handle closure here, maybe attempt reconnection?
         },
       );
     } catch (e) {
@@ -71,9 +74,13 @@ class WebSocketNotificationService {
     }
   }
 
+  Future<void> disconnect() async {
+    _channel?.sink.close();
+  }
+
   Future<void> showNotification(int id, String message) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        const AndroidNotificationDetails(
       'ChannelID',
       'ChannelName',
       importance: Importance.max,
@@ -81,7 +88,7 @@ class WebSocketNotificationService {
       icon: '@drawable/ic_launcher', // Full path to the icon
     );
 
-    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       id,
@@ -92,6 +99,21 @@ class WebSocketNotificationService {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import 'dart:async';
 // import 'dart:convert'; // Import for JSON decoding

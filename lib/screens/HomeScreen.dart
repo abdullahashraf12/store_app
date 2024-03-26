@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:store_app/constants/API_URLS.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:store_app/models/ProductM.dart';
 import 'package:store_app/models/VendorsM.dart';
 import 'package:store_app/services/GetProducts.dart';
@@ -13,16 +18,8 @@ import 'package:store_app/models/CategoriesM.dart';
 import 'package:store_app/widgets/VendorHome.dart';
 
 class HomeScreen extends StatelessWidget {
-  final WebSocketNotificationService notificationService =
-      WebSocketNotificationService();
-
-  Future<void> _initializeNotifications() async {
-    await notificationService.connect(); // Connect to WebSocket
-  }
-
   @override
   Widget build(BuildContext context) {
-    _initializeNotifications();
     return Scaffold(
       appBar: AppBar(
         title: AppBarSearch(),
