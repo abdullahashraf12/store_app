@@ -5,36 +5,15 @@ import 'package:store_app/Bloc/bloc/authentication_bloc.dart';
 import 'package:store_app/screens/SplashScreen.dart';
 import 'package:store_app/services/BackgroundService.dart';
 
-// const String taskName = "background_task"; // Unique task name
-
-// void callbackDispatcher() {
-//   Workmanager().executeTask((task, inputData) async {
-//     try {
-//       SharedPreferences sharedPreferences =
-//           await SharedPreferences.getInstance();
-//       String token = sharedPreferences.getString("token") ?? '';
-//       if (token.isNotEmpty) {
-//         WebSocketNotificationService service = WebSocketNotificationService();
-//         await service.connect();
-//         print("WebSocket connection established in background task.");
-//       } else {
-//         print("Token not found or empty.");
-//       }
-//     } catch (error) {
-//       print("Error connecting to WebSocket: $error");
-//     }
-//     return Future.value(true);
-//   });
-// }
-
 void main() async {
   try {
     await BackgroundService().initializeNotifications();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String token = sharedPreferences.getString("token") ?? '';
-    if (token.isNotEmpty) {
-      await BackgroundService().initializeNotifications();
-    }
+
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // String token = sharedPreferences.getString("token").toString();
+    // if (token != "null") {
+    //   await BackgroundService().initializeNotifications();
+    // }
   } catch (error) {}
   // WidgetsFlutterBinding.ensureInitialized();
   // await Workmanager().initialize(callbackDispatcher);

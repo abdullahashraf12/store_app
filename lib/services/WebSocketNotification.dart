@@ -22,15 +22,16 @@ class WebSocketNotificationService {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String token = sharedPreferences.getString("token") ?? '';
     if (token.isEmpty) {
+      isConnected = false;
+
       log('Token is empty. Cannot connect to WebSocket.');
       return;
     } else {
       try {
         _channel = IOWebSocketChannel.connect(
             '${ApiUrls.WebSocketNotificationUrl}/$token');
-        _isConnected =
-            _channel != null; // Update isConnected based on the channel
-
+        isConnected = _channel != null;
+        print("notification connection " + isConnected.toString());
         print('${ApiUrls.WebSocketNotificationUrl}/$token');
         print('${ApiUrls.WebSocketNotificationUrl}/$token');
         print('${ApiUrls.WebSocketNotificationUrl}/$token');
@@ -83,16 +84,22 @@ class WebSocketNotificationService {
               }
             },
             onError: (error) {
+              isConnected = false;
+
               log('WebSocket error: $error');
               // Handle error here
             },
             onDone: () {
+              isConnected = false;
+
               log('WebSocket closed.');
               // Handle closure here, maybe attempt reconnection?
             },
           );
         }
       } catch (e) {
+        isConnected = _channel != null;
+
         log('Error connecting to WebSocket: $e');
         // Handle connection error here
       }

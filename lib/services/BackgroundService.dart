@@ -10,14 +10,13 @@ import 'package:store_app/services/WebSocketNotification.dart';
 class BackgroundService {
   @pragma("vm:entry-point")
   static void onStart(ServiceInstance service) async {
+    WebSocketNotificationService seree = WebSocketNotificationService();
+
     service.on("setAsForeground").listen((event) {
       print("Foreground Mode");
     });
 
-    service.on("setAsBackground").listen((event) async {});
-
-    service.on("stopService").listen((event) async {
-      WebSocketNotificationService seree = WebSocketNotificationService();
+    service.on("setAsBackground").listen((event) async {
       while (true) {
         try {
           SharedPreferences sharedPreferences =
@@ -39,27 +38,32 @@ class BackgroundService {
       }
     });
 
-    WebSocketNotificationService seree = WebSocketNotificationService();
+    service.on("stopService").listen((event) async {});
+
     while (true) {
       try {
         SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         String token = sharedPreferences.getString("token") ?? '';
-        if (token.isEmpty == false) {
-          if (seree.isConnected == false) {
-            print("seree.isConnected default : ${seree.isConnected}");
+        if (seree.isConnected == false && token.isEmpty == false) {
+          print("seree.isConnected default : ${seree.isConnected}");
 
-            await seree.connect();
+          await seree.connect();
 
-            print("seree.isConnected Non default : ${seree.isConnected}");
-          }
+          print("seree.isConnected Non default : ${seree.isConnected}");
         }
+
         await Future.delayed(const Duration(seconds: 3));
 
         print("i am here here");
+        print(" is token exist ? " +
+            token.isNotEmpty.toString() +
+            "is connected ? " +
+            seree.isConnected.toString());
       } catch (error) {}
     }
   }
+  // }
 
   FlutterLocalNotificationsPlugin flutterLocalPlugin =
       FlutterLocalNotificationsPlugin();
