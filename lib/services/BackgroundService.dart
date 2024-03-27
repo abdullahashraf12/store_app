@@ -16,27 +16,7 @@ class BackgroundService {
       print("Foreground Mode");
     });
 
-    service.on("setAsBackground").listen((event) async {
-      while (true) {
-        try {
-          SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          String token = sharedPreferences.getString("token") ?? '';
-          if (token.isEmpty == false) {
-            if (seree.isConnected == false) {
-              print("seree.isConnected default : ${seree.isConnected}");
-
-              await seree.connect();
-
-              print("seree.isConnected Non default : ${seree.isConnected}");
-            }
-          }
-          await Future.delayed(const Duration(seconds: 3));
-
-          print("i am here here");
-        } catch (error) {}
-      }
-    });
+    service.on("setAsBackground").listen((event) async {});
 
     service.on("stopService").listen((event) async {});
 
