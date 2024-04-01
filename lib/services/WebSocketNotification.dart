@@ -29,7 +29,8 @@ class WebSocketNotificationService {
     } else {
       try {
         _channel = IOWebSocketChannel.connect(
-            '${ApiUrls.WebSocketNotificationUrl}/$token');
+            '${ApiUrls.WebSocketNotificationUrl}',
+            headers: {"token": token});
         isConnected = _channel != null;
         print("notification connection " + isConnected.toString());
         print('${ApiUrls.WebSocketNotificationUrl}/$token');
@@ -44,7 +45,7 @@ class WebSocketNotificationService {
         } else {
           String message__ = "";
           _channel!.stream.listen(
-            (message) {
+            (message) async {
               var decodedMessage;
               message__ = message;
 
@@ -61,8 +62,10 @@ class WebSocketNotificationService {
                     int id = notification['id'];
                     log("My Id ${id}My Message$notificationMessage");
                     // Show the notification
-                    showNotification(id,
-                        notificationMessage); // You can implement this method if needed
+                    showNotification(id, notificationMessage);
+                    var data_to_delete = {"id": id, "token": token};
+                    await sendData(id, token);
+                    // You can implement this method if needed
                   }
                 } else {
                   print('Received message: $message__');
@@ -76,7 +79,10 @@ class WebSocketNotificationService {
 
                   // Now you can use id and messageText as needed
                   print('ID: $id, Message: $messageText');
+
                   showNotification(id, messageText);
+                  var data_to_delete = {"id": id, "token": token};
+                  await sendData(id, token);
                 }
                 // Log the decoded message
               } catch (e) {
@@ -129,6 +135,13 @@ class WebSocketNotificationService {
       platformChannelSpecifics,
       payload: 'item x',
     );
+  }
+
+  Future<void> sendData(int id, String token) async {
+    if (_channel != null) {
+      var data_to_delete = {"id": id, "token": token};
+      _channel!.sink.add(jsonEncode(data_to_delete));
+    }
   }
 }
 

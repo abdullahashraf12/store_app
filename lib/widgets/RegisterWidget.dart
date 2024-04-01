@@ -179,37 +179,3 @@ class _RegisterWidgetState extends State<RegisterWidget> {
     });
   }
 }
-
-  // void _registerUser(String username, String email, String password) async {
-  //   var data = await RegisterService().registerUser(username, email, password);
-  //   print('Registration response: $data');
-  //   print('Registration response: $data');
-  //   print('Registration response: $data');
-  //   print('Registration response: $data');
-  //   if (data['data'].toString() == "Success") {
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-  //       return const LoginPage();
-  //     }));
-  //   } else if (data["error"].toString().contains("already exists") == true) {
-  //     setState(() {
-  //       _errorMessage = 'This account already exists';
-  //     });
-  //   } else {
-  //     _errorMessage = 'This account already exists';
-  //   }
-  // }
-
-  // void _registerUser(String username, String email, String password) async {
-  //   var data = await RegisterService().registerUser(username, email, password);
-  //   print('Registration response: $data');
-
-  //   if (data["error"].toString().contains("already exists")) {
-  //     setState(() {
-  //       _errorMessage = 'This account already exists';
-  //     });
-  //   } else if (data["data"].toString().contains('Success') == true) {
-  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-  //       return const LoginPage();
-  //     }));
-  //   }
-  // }

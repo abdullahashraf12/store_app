@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_app/services/Authentication.dart';
-import 'package:store_app/services/WebSocketNotification.dart';
-
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
