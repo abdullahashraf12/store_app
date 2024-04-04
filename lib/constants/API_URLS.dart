@@ -1,5 +1,5 @@
 class ApiUrls {
-  static const String ip = "192.168.1.8";
+  static const String ip = "192.168.1.19";
   static const String port = "8080";
   static const String fullUrl = "http://$ip:$port";
   static const String getAllProductsUrl = "http://$ip:$port/mobApi/a_p";

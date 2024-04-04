@@ -13,7 +13,6 @@ class WebSocketNotificationService {
       FlutterLocalNotificationsPlugin();
   bool _isConnected = false;
   bool get isConnected => _isConnected;
-
   set isConnected(bool value) {
     _isConnected = value;
   }
@@ -32,14 +31,14 @@ class WebSocketNotificationService {
             '${ApiUrls.WebSocketNotificationUrl}',
             headers: {"token": token});
         isConnected = _channel != null;
-        print("notification connection " + isConnected.toString());
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
-        print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print("notification connection " + isConnected.toString());
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
+        // print('${ApiUrls.WebSocketNotificationUrl}/$token');
         if (_channel == null) {
           print(null.toString());
         } else {
@@ -60,12 +59,14 @@ class WebSocketNotificationService {
                     // Extract the notification message from the notification object
                     String notificationMessage = notification['message'];
                     int id = notification['id'];
-                    log("My Id ${id}My Message$notificationMessage");
-                    // Show the notification
-                    showNotification(id, notificationMessage);
-                    var data_to_delete = {"id": id, "token": token};
-                    await sendData(id, token);
-                    // You can implement this method if needed
+                    if (notificationMessage != "Get Location") {
+                      log("My Id ${id}My Message$notificationMessage");
+                      // Show the notification
+                      showNotification(id, notificationMessage);
+                      var data_to_delete = {"id": id, "token": token};
+                      await sendData(id, token);
+                      // You can implement this method if needed
+                    } else {}
                   }
                 } else {
                   print('Received message: $message__');
@@ -76,13 +77,15 @@ class WebSocketNotificationService {
                   // Access the id and message from the decoded map
                   int id = decodedMessage['id'];
                   String messageText = decodedMessage['message'];
+                  if (messageText == "Get Location") {
+                    // await getGPSLocation(token);
+                  } else {
+                    print('ID: $id, Message: $messageText');
 
-                  // Now you can use id and messageText as needed
-                  print('ID: $id, Message: $messageText');
-
-                  showNotification(id, messageText);
-                  var data_to_delete = {"id": id, "token": token};
-                  await sendData(id, token);
+                    showNotification(id, messageText);
+                    var data_to_delete = {"id": id, "token": token};
+                    await sendData(id, token);
+                  }
                 }
                 // Log the decoded message
               } catch (e) {
@@ -139,7 +142,7 @@ class WebSocketNotificationService {
 
   Future<void> sendData(int id, String token) async {
     if (_channel != null) {
-      var data_to_delete = {"id": id, "token": token};
+      var data_to_delete = {"data": "delete", "id": id, "token": token};
       _channel!.sink.add(jsonEncode(data_to_delete));
     }
   }
