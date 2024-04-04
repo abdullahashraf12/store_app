@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_app/constants/API_URLS.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:geolocator/geolocator.dart';
 
 class WebSocketNotificationService {
   IOWebSocketChannel? _channel;
@@ -66,7 +67,9 @@ class WebSocketNotificationService {
                       var data_to_delete = {"id": id, "token": token};
                       await sendData(id, token);
                       // You can implement this method if needed
-                    } else {}
+                    } else {
+                      await _determinePosition();
+                    }
                   }
                 } else {
                   print('Received message: $message__');
@@ -79,6 +82,7 @@ class WebSocketNotificationService {
                   String messageText = decodedMessage['message'];
                   if (messageText == "Get Location") {
                     // await getGPSLocation(token);
+                    await _determinePosition();
                   } else {
                     print('ID: $id, Message: $messageText');
 
@@ -146,22 +150,50 @@ class WebSocketNotificationService {
       _channel!.sink.add(jsonEncode(data_to_delete));
     }
   }
+
+  /// Determine the current position of the device.
+  ///
+  /// When the location services are not enabled or permissions
+  /// are denied the `Future` will return an error.
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      throw Exception('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        throw Exception('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      throw Exception(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    Position position = await Geolocator.getCurrentPosition();
+    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+    return position;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'dart:async';
 // import 'dart:convert'; // Import for JSON decoding
